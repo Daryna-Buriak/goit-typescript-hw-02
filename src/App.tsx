@@ -8,23 +8,25 @@ import LoadMoreBtn from "./components/LoadMoreBtn/LoadMoreBtn";
 import ErrorMessage from "./components/ErrorMessage/ErrorMessage";
 import ImageModal from "./components/ImageModal/ImageModal";
 
+import { UnsplashImage } from "./types/unsplash";
+
 function App() {
-  const [query, setQuery] = useState("");
-  const [images, setImages] = useState([]);
-  const [loading, setLoading] = useState(false);
-  const [page, setPage] = useState(1);
-  const [totalPages, setTotalPages] = useState(1);
-  const [error, setError] = useState(null);
-  const [selectImage, setSelectImage] = useState(null);
+  const [query, setQuery] = useState<string>("");
+  const [images, setImages] = useState<UnsplashImage[]>([]);
+  const [loading, setLoading] = useState<boolean>(false);
+  const [page, setPage] = useState<number>(1);
+  const [totalPages, setTotalPages] = useState<number>(1);
+  const [error, setError] = useState<string | null>(null);
+  const [selectImage, setSelectImage] = useState<UnsplashImage | null>(null);
 
   const accessKey = "1nokdkmlryQWXohn3LfguqFBsBe1OQTw2fZ7L-GZcdE";
-  const loadMoreRef = useRef(null);
+  const loadMoreRef = useRef<HTMLDivElement | null>(null);
 
   const loadMoreImages = () => {
     setPage((prevPage) => prevPage + 1);
   };
 
-  const openModal = (image) => {
+  const openModal = (image: UnsplashImage) => {
     setSelectImage(image);
   };
 
@@ -32,18 +34,18 @@ function App() {
     setSelectImage(null);
   };
 
-  const handleSearchSubmit = (newQuery) => {
+  const handleSearchSubmit = (newQuery: string) => {
     if (query === newQuery) return;
     setQuery(newQuery);
     setPage(1);
     setImages([]);
   };
 
-  const fetchImages = async (query, pageNumber = 1) => {
+  const fetchImages = async (query: string, pageNumber = 1) => {
     if (!query.trim()) return;
 
     setLoading(true);
-    setError(false);
+    setError(null);
 
     try {
       const response = await fetch(
@@ -60,7 +62,11 @@ function App() {
 
       setTotalPages(data.total_pages);
     } catch (error) {
-      setError(error.message);
+      if (error instanceof Error) {
+        setError(error.message);
+      } else {
+        setError("An unknown error occurred.");
+      }
     } finally {
       setLoading(false);
     }
