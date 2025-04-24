@@ -1,12 +1,16 @@
 import css from "./ImageGallery.module.css";
-
 import ImageCard from "../ImageCard/ImageCard";
-import LoadMoreBtn from "../LoadMoreBtn/LoadMoreBtn";
+import { UnsplashImage } from "../../types/unsplash";
 
-export default function ImageGallery({ images, openModal }) {
+interface ImageGalleryProps {
+  images: UnsplashImage[];
+  openModal: (image: UnsplashImage) => void;
+}
+
+export default function ImageGallery({ images, openModal }: ImageGalleryProps) {
   return (
     <ul className={css.imageGallery}>
-      {images.map((imageCard) => (
+      {images.map((imageCard: UnsplashImage) => (
         <li key={imageCard.id} onClick={() => openModal(imageCard)}>
           <ImageCard imageItem={imageCard} />
         </li>

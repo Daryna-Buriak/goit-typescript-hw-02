@@ -1,7 +1,12 @@
 import ClipLoader from "react-spinners/ClipLoader";
 import CSSProperties from "react";
 
-export default function Loader({ loading, color }) {
+interface LoaderProps {
+  loading: boolean;
+  color: string;
+}
+
+export default function Loader({ loading, color }: LoaderProps) {
   const override = {
     display: "block",
     margin: "0 auto",

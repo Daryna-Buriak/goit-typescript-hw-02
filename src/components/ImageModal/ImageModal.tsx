@@ -1,10 +1,16 @@
 import css from "./ImageModal.module.css";
 import Modal from "react-modal";
 import React from "react";
+import { UnsplashImage } from "../../types/unsplash";
 
 Modal.setAppElement("#root");
 
-export default function ImageModal({ onClose, photo }) {
+interface ImageModalProps {
+  photo: UnsplashImage | null;
+  onClose: () => void;
+}
+
+export default function ImageModal({ onClose, photo }: ImageModalProps) {
   const isOpen = Boolean(photo);
   return (
     <Modal
@@ -22,10 +28,10 @@ export default function ImageModal({ onClose, photo }) {
           <img
             className={css.modalImage}
             src={photo.urls.regular}
-            alt={photo.description}
+            alt={photo.alt_description}
           />
           <p className={css.text}>Likes: {photo.likes}</p>
-          <p className={css.text}>Description: {photo.description}</p>
+          <p className={css.text}>Description: {photo.alt_description}</p>
           <p className={css.text}>Author: {photo.user.name}</p>
         </>
       )}
