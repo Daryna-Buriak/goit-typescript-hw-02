@@ -8,7 +8,7 @@ import LoadMoreBtn from "./components/LoadMoreBtn/LoadMoreBtn";
 import ErrorMessage from "./components/ErrorMessage/ErrorMessage";
 import ImageModal from "./components/ImageModal/ImageModal";
 
-import { UnsplashImage } from "./types/unsplash";
+import { UnsplashImage, UnsplashResponse } from "./types/unsplash";
 
 function App() {
   const [query, setQuery] = useState<string>("");
@@ -56,7 +56,7 @@ function App() {
         throw new Error(`HTTP Error ${response.status}: Failed to load images`);
       }
 
-      const data = await response.json();
+      const data = (await response.json()) as UnsplashResponse;
 
       setImages((prevImages) => [...prevImages, ...data.results]);
 
